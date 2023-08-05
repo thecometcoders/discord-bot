@@ -76,5 +76,4 @@ Client.on("messageCreate", (message) => {
 })
 
 
-Client.login("MTEzNjA4MDY5NTQ5NjgwNjQ2MA.Ga7s9A.doREmg0yRhQyEsGPyCjbwpuBsubhaSJAcrasMM")
 
