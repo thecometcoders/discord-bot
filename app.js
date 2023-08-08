@@ -7,7 +7,7 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-// This block of code will open the commands folder, look inside for other folders and fine the commands within them.
+// Sets our commands by checking within the commands folder and sub-folders
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
@@ -26,24 +26,21 @@ for (const folder of commandFolders) {
   }
 }
 
-
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
+// Run when client ready
 client.once(Events.ClientReady, c => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-
+// Checks for an interaction
 client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
-
+  // Attempts to retrieve command from commands collection set earlier
   const command = interaction.client.commands.get(interaction.commandName);
-
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
   }
-
+  // Attempt to execute the command
   try {
     await command.execute(interaction);
   } catch (error) {
